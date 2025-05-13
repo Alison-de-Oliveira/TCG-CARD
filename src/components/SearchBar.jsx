@@ -8,26 +8,17 @@
  * 
  */
 
-
-import { useState } from "react";
-export default function SearchBar({ onSearch }) {
-  const [input, setInput] = useState("");
-
+import { useState, useEffect } from "react";
+export default function SearchBar({ value, onChange }) {
   return (
     <div className="mb-3">
       <input
         type="text"
         className="form-control"
-        placeholder="Digite o nome da carta (ex: Pikachu)"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") onSearch(input);
-        }}
+        placeholder="Digite o nome da carta (ex: umbreon ex)"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
-      <button className="btn btn-primary mt-2" onClick={() => onSearch(input)}>
-        Buscar
-      </button>
     </div>
   );
 }

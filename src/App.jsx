@@ -21,36 +21,72 @@ export default function App() {
   const [foundCards, setFoundCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [savedCards, setSavedCards] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Carrega cartas salvas do localStorage
   useEffect(() => {
     const stored = localStorage.getItem("savedCards");
     if (stored) setSavedCards(JSON.parse(stored));
   }, []);
 
- const handleSearch = async (name) => {
-  if (!name.trim()) {
-    setFoundCards([]);
-    return;
-  }
+  // Faz a busca automática com debounce ao digitar
+  useEffect(() => {
+  const fetchCards = async () => {
+    if (!searchTerm.trim() || searchTerm.trim().length < 3) {
+      setFoundCards([]);
+      setIsLoading(false);
+      return;
+    }
 
-  try {
-    const encodedQuery = encodeURIComponent(`name:"${name}"`);
-    const response = await fetch(`https://api.pokemontcg.io/v2/cards?q=${encodedQuery}`, {
-      headers: {
-        "X-Api-Key": apiKey,
-      },
-    });
+    setIsLoading(true);
+    try {
+      // Prepara o termo de busca removendo espaços extras e tratando espaços internos
+      const cleanedSearchTerm = searchTerm.trim().replace(/\s+/g, ' ');
+      
+      // Divide o termo em palavras para busca mais precisa
+      const searchWords = cleanedSearchTerm.split(' ');
+      
+      // Constrói a query dinamicamente
+      let queryParts = [];
+      
+      // Para cada palavra, adiciona uma condição de busca
+      searchWords.forEach(word => {
+        if (word.length > 0) {
+          queryParts.push(`name:${word}*`);
+        }
+      });
+      
+      // Combina todas as condições com AND
+      const finalQuery = queryParts.join(' ');
+      
+      const response = await fetch(
+        `https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent(finalQuery)}`,
+        {
+          headers: {
+            "X-Api-Key": apiKey,
+          },
+        }
+      );
 
-    const data = await response.json();
-    setFoundCards(data.data || []);
-    setSelectedCard(null);
-  } catch (error) {
-    console.error("Erro na busca:", error);
-    setFoundCards([]);
-  }
-};
+      const data = await response.json();
+      console.log("Resultados da busca:", data.data); // Para debug
+      setFoundCards(data.data?.slice(0, 18) || []);
+    } catch (error) {
+      console.error("Erro na busca:", error);
+      setFoundCards([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const handleSelectCard = (card) => setSelectedCard(card);
+  const delay = setTimeout(fetchCards, 300);
+  return () => clearTimeout(delay);
+}, [searchTerm]);
+
+  const handleSelectCard = (card) => {
+    setSelectedCard(card);
+  };
 
   const handleSave = (cardToSave) => {
     if (savedCards.some((c) => c.id === cardToSave.id)) return;
@@ -68,8 +104,40 @@ export default function App() {
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">DASHBOARD POKÉMON</h2>
-      <SearchBar onSearch={handleSearch} />
-      <CardPreviewList cards={foundCards} onSelect={handleSelectCard} />
+
+      {/* Campo de busca */}
+      <SearchBar value={searchTerm} onChange={setSearchTerm} />
+
+      {/* Mensagem de loading */}
+      {isLoading && (
+        <div className="text-center my-4">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Carregando...</span>
+          </div>
+          <p>Buscando cartas...</p>
+        </div>
+      )}
+
+      {/* Mensagem quando tem menos de 3 caracteres */}
+      {!isLoading && searchTerm.length > 0 && searchTerm.length < 3 && (
+        <div className="alert alert-info mt-3">
+          Digite pelo menos 3 caracteres para buscar
+        </div>
+      )}
+
+      {/* Mensagem quando não encontra resultados */}
+      {!isLoading && searchTerm.length >= 3 && foundCards.length === 0 && (
+        <div className="alert alert-warning mt-3">
+          Nenhum Pokémon encontrado para "{searchTerm}"
+        </div>
+      )}
+
+      {/* Lista de pré-visualização */}
+      {!isLoading && searchTerm.length >= 3 && foundCards.length > 0 && (
+        <CardPreviewList cards={foundCards} onSelect={handleSelectCard} />
+      )}
+
+      {/* Detalhes da carta e suas cartas salvas */}
       {selectedCard && (
         <div className="row mt-4">
           <div className="col-md-6">

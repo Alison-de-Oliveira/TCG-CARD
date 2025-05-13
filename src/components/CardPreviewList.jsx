@@ -17,7 +17,7 @@ export default function CardPreviewList({ cards, onSelect }) {
         <div
           key={card.id}
           className="card"
-          style={{ width: "8rem", cursor: "pointer" }}
+          style={{ width: "125px", cursor: "pointer" }}
           onClick={() => onSelect(card)}
         >
           <img src={card.images.small} alt={card.name} className="card-img-top" />
