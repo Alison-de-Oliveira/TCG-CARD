@@ -7,3 +7,13 @@
  * Descrição:
  * Estilos personalizados do aplicativo
  */
+ 
+ .suas_cartas {
+.div-pai {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  height: 200px; /* Defina a altura da div pai para centralizar verticalmente */
+}
+
+ }

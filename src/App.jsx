@@ -139,16 +139,21 @@ export default function App() {
 
       {/* Detalhes da carta e suas cartas salvas */}
       {selectedCard && (
-        <div className="row mt-4">
-          <div className="col-md-6">
-            <CardDetails card={selectedCard} onSave={handleSave} />
-          </div>
-          <div className="col-md-6">
-            <h5>Suas Cartas</h5>
-            <SavedCards cards={savedCards} onRemove={handleRemove} />
-          </div>
-        </div>
-      )}
+  <div className="row mt-2">
+    <div className="col-md-12">
+      <CardDetails card={selectedCard} onSave={handleSave} />
     </div>
+   
+  </div>
+)}
+  <div>
+ <div className="col-md-12 text-center"> {/* Centraliza apenas o título */}
+      <h5>Suas Cartas</h5>
+    </div>
+    <div className="col-md-12">
+      <SavedCards cards={savedCards} onRemove={handleRemove} />
+    </div>
+</div>
+</div>
   );
 }
