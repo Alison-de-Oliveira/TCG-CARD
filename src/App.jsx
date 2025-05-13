@@ -9,88 +9,78 @@
  */
 
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState, useEffect } from "react";
+import SearchBar from "./components/SearchBar";
+import CardDetails from "./components/CardDetails";
+import SavedCards from "./components/SavedCards";
+import CardPreviewList from "./components/CardPreviewList";
 
-function App() {
+const apiKey = import.meta.env.VITE_POKEMON_API_KEY;
+
+export default function App() {
+  const [foundCards, setFoundCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
   const [savedCards, setSavedCards] = useState([]);
-  const [searchedCard, setSearchedCard] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [cardId, setCardId] = useState('');
-  
-  const apiKey = import.meta.env.VITE_POKEMON_API_KEY;
 
   useEffect(() => {
-    const loadedCards = JSON.parse(localStorage.getItem('pokemonCards')) || [];
-    setSavedCards(loadedCards);
+    const stored = localStorage.getItem("savedCards");
+    if (stored) setSavedCards(JSON.parse(stored));
   }, []);
 
-  const searchCard = async () => {
-    if (!cardId.trim()) return;
-    
-    setLoading(true);
-    setError('');
-    
-    try {
-      const response = await axios.get(`https://api.pokemontcg.io/v2/cards/${cardId}`, {
-        headers: { 'X-Api-Key': apiKey }
-      });
-      setSearchedCard(response.data.data);
-    } catch (err) {
-      setError('Carta não encontrada. Verifique o ID e tente novamente.');
-      setSearchedCard(null);
-    } finally {
-      setLoading(false);
-    }
+ const handleSearch = async (name) => {
+  if (!name.trim()) {
+    setFoundCards([]);
+    return;
+  }
+
+  try {
+    const encodedQuery = encodeURIComponent(`name:"${name}"`);
+    const response = await fetch(`https://api.pokemontcg.io/v2/cards?q=${encodedQuery}`, {
+      headers: {
+        "X-Api-Key": apiKey,
+      },
+    });
+
+    const data = await response.json();
+    setFoundCards(data.data || []);
+    setSelectedCard(null);
+  } catch (error) {
+    console.error("Erro na busca:", error);
+    setFoundCards([]);
+  }
+};
+
+  const handleSelectCard = (card) => setSelectedCard(card);
+
+  const handleSave = (cardToSave) => {
+    if (savedCards.some((c) => c.id === cardToSave.id)) return;
+    const updated = [...savedCards, cardToSave];
+    setSavedCards(updated);
+    localStorage.setItem("savedCards", JSON.stringify(updated));
   };
 
-  const saveCard = () => {
-    if (!searchedCard) return;
-    
-    const isAlreadySaved = savedCards.some(card => card.id === searchedCard.id);
-    if (isAlreadySaved) {
-      setError('Esta carta já está salva.');
-      return;
-    }
-    
-    const updatedCards = [...savedCards, searchedCard];
-    localStorage.setItem('pokemonCards', JSON.stringify(updatedCards));
-    setSavedCards(updatedCards);
+  const handleRemove = (id) => {
+    const updated = savedCards.filter((c) => c.id !== id);
+    setSavedCards(updated);
+    localStorage.setItem("savedCards", JSON.stringify(updated));
   };
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center mb-4">Dashboard de Cartas Pokémon</h1>
-
-      <section className="mb-5">
-        <h2>Suas Cartas Salvas</h2>
-        {savedCards.length > 0 ? (
-          <div className="d-flex flex-wrap gap-2">
-            {savedCards.map(card => (
-              <img 
-                key={card.id} 
-                src={card.images.small} 
-                alt={card.name} 
-                className="img-thumbnail"
-                style={{ width: '150px', cursor: 'pointer' }}
-                onClick={() => setSearchedCard(card)}
-              />
-            ))}
+      <h2 className="text-center mb-4">DASHBOARD POKÉMON</h2>
+      <SearchBar onSearch={handleSearch} />
+      <CardPreviewList cards={foundCards} onSelect={handleSelectCard} />
+      {selectedCard && (
+        <div className="row mt-4">
+          <div className="col-md-6">
+            <CardDetails card={selectedCard} onSave={handleSave} />
           </div>
-        ) : (
-          <p>Nenhuma carta salva.</p>
-        )}
-      </section>
+          <div className="col-md-6">
+            <h5>Suas Cartas</h5>
+            <SavedCards cards={savedCards} onRemove={handleRemove} />
+          </div>
+        </div>
+      )}
     </div>
-
-
-
-
-
-
   );
 }
-
-export default App;
