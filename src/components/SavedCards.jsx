@@ -1,3 +1,13 @@
+/**
+ * Nome do arquivo: SavedCards.jsx
+ * Data de criação: 13/05/2025
+ * Autor: Alison de Oliveira Alves da Silva 
+ * Matrícula: 01735081
+ *
+ * Descrição:
+ * 
+ */
+
 import CardItem from "./CardItem";
 
 export default function SavedCards({ cards, onRemove }) {

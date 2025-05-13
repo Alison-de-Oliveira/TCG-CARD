@@ -1,3 +1,14 @@
+/**
+ * Nome do arquivo: CardItem.jsx
+ * Data de criação: 13/05/2025
+ * Autor: Alison de Oliveira Alves da Silva 
+ * Matrícula: 01735081
+ *
+ * Descrição:
+ * 
+ */
+
+
 export default function CardItem({ card, onRemove }) {
   return (
     <div className="card" style={{ width: '5rem' }}>

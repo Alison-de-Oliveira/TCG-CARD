@@ -1,3 +1,16 @@
+/**
+ * Nome do arquivo: CardDetails.jsx
+ * Data de criação: 13/05/2025
+ * Autor: Alison de Oliveira Alves da Silva 
+ * Matrícula: 01735081
+ *
+ * Descrição:
+ * 
+ */
+
+
+
+
 export default function CardDetails({ card, onSave }) {
   if (!card) return <div className="text-center">Nenhuma carta selecionada</div>;
 
