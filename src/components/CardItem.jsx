@@ -9,14 +9,33 @@
  */
 
 
+import '../style.css'
+
 export default function CardItem({ card, onRemove }) {
+  if (!card || !card.id) return null;
+
+  const imageUrl = card?.images?.small || "";
+  const cardName = card?.name || "Carta Pokémon";
+
   return (
-    <div className="card" style={{ width: '5rem' }}>
-      <img src={card.images.small} alt={card.name} className="card-img-top" />
-      <div className="card-body p-1 text-center">
+    <div className="card-item">
+      <div className="card-image-container">
+        {imageUrl ? (
+          <img 
+            src={imageUrl} 
+            alt={cardName} 
+            className="card-image"
+          />
+        ) : (
+          <small style={{ color: "#666" }}>Imagem indisponível</small>
+        )}
+      </div>
+      
+      <div className="card-footer">
+        <h6 className="card-title">{cardName}</h6>
         <button
-          className="btn btn-danger btn-sm"
           onClick={() => onRemove(card.id)}
+          className="remove-button"
         >
           Remover
         </button>

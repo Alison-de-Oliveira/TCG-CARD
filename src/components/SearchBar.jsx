@@ -8,16 +8,21 @@
  * 
  */
 
-import { useState, useEffect } from "react";
 export default function SearchBar({ value, onChange }) {
   return (
-    <div className="mb-3">
+    <div className="search-bar-container mb-3">
+      <label htmlFor="searchInput" className="form-label visually-hidden">
+        Buscar cartas
+      </label>
       <input
+        id="searchInput"
         type="text"
         className="form-control"
         placeholder="Digite o nome da carta (ex: umbreon ex)"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        autoComplete="off"
+        spellCheck={false}
       />
     </div>
   );

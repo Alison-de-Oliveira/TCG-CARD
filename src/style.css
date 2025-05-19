@@ -7,13 +7,160 @@
  * Descrição:
  * Estilos personalizados do aplicativo
  */
+
+ .dashboard-title {
+  font-family: 'Verdana', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffcb05; 
+  text-shadow: 1px 2px 2px #2a75bb; 
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
  
- .suas_cartas {
-.div-pai {
-  display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
-  height: 200px; /* Defina a altura da div pai para centralizar verticalmente */
+/* CardPreview css*/
+.card-3d {
+  perspective: 800px;
 }
 
- }
+.card-inner {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.card-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-glow::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
+    transparent 70%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+  transform: rotate(25deg);
+  animation: shineMove 5s infinite linear;
+  z-index: 2;
+}
+
+@keyframes shineMove {
+  0% {
+    transform: translate(-100%, -100%) rotate(25deg);
+  }
+  100% {
+    transform: translate(100%, 100%) rotate(25deg);
+  }
+}
+
+/*Estilo do search bar*/
+
+.search-bar-container {
+  max-width: 400px;      
+  margin: 0 auto;       
+}
+
+#searchInput {
+  border-radius: 12px;           
+  padding: 10px 16px;           
+  font-size: 1.1rem;          
+  border: 2px solid #ddd;        
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: #6f42c1;        
+  box-shadow: 0 0 8px rgba(111,66,193, 0.5);
+  background-color: #fff;
+}
+
+/* CardItem.css */
+
+.saved-cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1px; 
+  padding: 12px;
+}
+
+.card-item {
+  width: fit-content; 
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+  background: white;
+  border: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+}
+
+.card-image-container {
+  height: auto;      
+  padding: 6px 8px;   
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;/
+}
+
+.card-image {
+  max-width: 150px;   
+  max-height: 150px;
+  object-fit: contain;
+  display: block;
+}
+
+.card-footer {
+  padding: 8px 10px;  
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.card-title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remove-button {
+  border: 1.5px solid #e74c3c;
+  background: transparent;
+  color: #e74c3c;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.remove-button:hover {
+  background-color: #e74c3c;
+  color: #fff;
+}
