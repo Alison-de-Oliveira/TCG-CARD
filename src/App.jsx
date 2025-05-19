@@ -5,7 +5,15 @@
  * Matrícula: 01735081
  *
  * Descrição:
- * Componente principal que contém toda a lógica do dashboard.
+ * Componente principal da aplicação que reúne todas as funcionalidades do dashboard de cartas Pokémon.
+ * 
+ * Funcionalidades
+ * Realiza busca ao vivo de cartas por nome usando a API do Pokémon TCG.
+ * Exibe resultados em pré-visualizações interativas com efeito 3D.
+ * Permite visualizar detalhes completos de uma carta selecionada.
+ * Oferece funcionalidade para salvar e remover cartas favoritas.
+ * Armazena cartas salvas no localStorage para persistência.
+ * Exibe indicadores de carregamento e mensagens informativas conforme o estado da busca.
  */
 
 

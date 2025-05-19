@@ -5,7 +5,14 @@
  * Matrícula: 01735081
  *
  * Descrição:
+ * Exibir os detalhes de uma carta Pokémon selecionada.
  * 
+ * Funcionalidades
+ * Mostra a imagem da carta
+ * Apresenta informações como nome, tipo, HP, ataques, fraquezas e resistências.
+ * Exibe dados do conjunto: nome e data de lançamento.
+ * Informa número da carta, raridade, artista e preço médio
+ * Possui um botão para salvar a carta, utilizando a função onSave.
  */
 
 export default function CardDetails({ card, onSave }) {

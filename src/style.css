@@ -5,21 +5,24 @@
  * Matrícula: 01735081
  *
  * Descrição:
- * Estilos personalizados do aplicativo
+ * Arquivo CSS responsável pelos estilos personalizados da aplicação de dashboard de cartas Pokémon.
  */
 
+
+ /*Estilo do DashBoard*/
  .dashboard-title {
   font-family: 'Verdana', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #ffcb05; 
-  text-shadow: 1px 2px 2px #2a75bb; 
+  color: #6f42c1;  
+  text-shadow: 1px 4px 2px #000000; 
   text-align: center;
   text-transform: uppercase;
   margin-bottom: 24px;
 }
  
-/* CardPreview css*/
+/*Estilo do CardPreview*/
+
 .card-3d {
   perspective: 800px;
 }
@@ -89,7 +92,7 @@
   background-color: #fff;
 }
 
-/* CardItem.css */
+/*Estilo do SavedCards*/
 
 .saved-cards-wrapper {
   display: flex;

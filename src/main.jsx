@@ -5,7 +5,13 @@
  * Matrícula: 01735081
  *
  * Descrição:
- *
+ * Arquivo de entrada da aplicação React. Responsável por inicializar e renderizar o componente principal App.
+ * 
+ * Funcionalidades
+ * Configura o modo estrito do React (StrictMode) para identificar potenciais problemas.
+ * Utiliza createRoot para renderizar a aplicação no elemento com id root.
+ * Importa e aplica os estilos do Bootstrap e do CSS customizado da aplicação.
+ * Renderiza o componente raiz App.
  */
 
 import { StrictMode } from 'react'

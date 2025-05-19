@@ -5,7 +5,13 @@
  * Matrícula: 01735081
  *
  * Descrição:
- * 
+ * Componente que exibe uma carta Pokémon em formato de item com imagem e nome, permitindo removê-la da lista.
+ *
+ * Funcionalidades:
+ * Exibe imagem e nome da carta.
+ * Mostra mensagem se a imagem não estiver disponível.
+ * Botão para remover a carta via função onRemove.
+ * Não renderiza se a carta ou seu id não existirem.
  */
 
 

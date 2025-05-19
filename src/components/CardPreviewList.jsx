@@ -3,9 +3,14 @@
  * Data de criação: 13/05/2025
  * Autor: Alison de Oliveira Alves da Silva 
  * Matrícula: 01735081
- *
- * Descrição:
  * 
+ * Descrição:
+ * Componente que exibe uma lista de pré-visualizações de cartas Pokémon com interação 3D e seleção por clique ou teclado.
+ * 
+ * Funcionalidades
+ * Renderiza até 18 cartas em layout responsivo.
+ * Aplica efeito 3D nas cartas ao mover o mouse.
+ * Permite selecionar uma carta clicando ou pressionando Enter/Space.
  */
 
 import { useRef } from "react";
