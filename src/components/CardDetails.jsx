@@ -15,16 +15,55 @@
  * Possui um botão para salvar a carta, utilizando a função onSave.
  */
 
+import { useRef } from "react";
+
 export default function CardDetails({ card, onSave }) {
-  if (!card) return <div className="text-center py-4">Nenhuma carta selecionada</div>;
+  const imageRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!imageRef.current) return;
+
+    const card = imageRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -10; 
+    const rotateY = ((x - centerX) / centerX) * 10;
+
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!imageRef.current) return;
+    imageRef.current.style.transform = "rotateX(0deg) rotateY(0deg)";
+  };
 
   return (
     <div className="container mt-3">
       <div className="row">
-        {/* Coluna da imagem */}
+        {/* Coluna da imagem com efeito 3D */}
         <div className="col-md-6 col-lg-5">
-          <img src={card.images.large} alt={card.name} className="img-fluid rounded" />
+          <img
+            ref={imageRef}
+            src={card.images.large}
+            alt={card.name}
+            className="img-fluid rounded card-3d"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              transition: "transform 0.1s ease-out",
+              transformStyle: "preserve-3d",
+              cursor: "grab",
+              boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+              margin: "auto",
+              display: "block"
+            }}
+          />
         </div>
+
 
         {/* Coluna das informações */}
         <div className="col-md-6 col-lg-7">

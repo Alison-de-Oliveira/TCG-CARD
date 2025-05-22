@@ -40,8 +40,8 @@ export default function CardPreviewList({ cards, onSelect }) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
+    const rotateX = ((y - centerY) / centerY) * -20;
+    const rotateY = ((x - centerX) / centerX) * 20;
 
     card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   };
@@ -74,9 +74,6 @@ export default function CardPreviewList({ cards, onSelect }) {
               src={card.images.small}
               alt={`Imagem da carta ${card.name}`}
               className="card-img-top"
-              onError={(e) => {
-                e.currentTarget.src = "/fallback.jpg"; // Caminho da imagem de fallback
-              }}
             />
             <div className="card-body p-1">
               <p className="card-text text-center small">{card.name}</p>
